@@ -2,23 +2,23 @@ import React from 'react';
 import './App.css';
 import Game from './game.js';
 
-class App extends React.Component{
+class App extends React.Component {
 
-  constructor(){ // constructor(props){ // props is optional
+  constructor() { // constructor(props){ // props is optional
     super();
     //super(props); // props here is optional if you don't have any properties to pass to the component
 
-    this.state = {date: new Date()};
+    this.state = { date: new Date() };
   }
 
-  componentDidMount(){
+  componentDidMount() {
     this.timerId = setInterval(
       () => this.tick(),
       1000
-      );
+    );
   }
 
-  componentWillUnmount(){
+  componentWillUnmount() {
     clearInterval(this.timerId);
   }
 
@@ -47,17 +47,17 @@ class App extends React.Component{
   }
 
 
-  render(){
+  render() {
     return (
       <div>
         <h1>Hello world!!</h1>
         <h2>It is {this.state.date.toLocaleTimeString()}.</h2>
-          <p>This is my first React project</p>
-					<div className="game">
-						<Game/>
-					</div>
+        <p>This is my first React project</p>
+        <div className="game">
+          <Game />
+        </div>
       </div>
-			
+
     );
   }
 }
