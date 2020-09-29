@@ -10,23 +10,69 @@ class Game extends React.Component {
             history: [{
                 squares: Array(9).fill(null),
             }],
+            stepInfo: [[]],
             stepNumber: 0,
             xIsNext: true,
         };
     }
 
+    calculateCurrentStepinfo(i) {
+        let row, col;
+        if (i < 3) {
+            row = 0;
+            if (i === 0) {
+                col = 0;
+            }
+            else if (i === 1) {
+                col = 1;
+            }
+            else {
+                col = 2;
+            }
+        }
+        else if (i < 6) {
+            row = 1;
+            if (i === 3) {
+                col = 0;
+            }
+            else if (i === 4) {
+                col = 1;
+            }
+            else {
+                col = 2;
+            }
+        }
+        else {
+            row = 2;
+            if (i === 6) {
+                col = 0;
+            }
+            else if (i === 7) {
+                col = 1;
+            }
+            else {
+                col = 2;
+            }
+        }
+        console.log("i = " + i + "row = " + row + "col = " + col);
+        return [row, col];
+    }
+
     handleClick(i) {
         const history = this.state.history.slice(0, this.state.stepNumber + 1);
+        const stepInfo = this.state.stepInfo.slice();
         const current = history[history.length - 1];
         const squares = current.squares.slice();
-
-        // creating a copy of squares by slice method
-        // this is to avoid mutating data
 
         // if already one player is winner then do nothing just return
         if (calculateWinner(squares) || squares[i]) {
             return;
         }
+
+        console.log("stepInfo Array = " + stepInfo);
+
+        // creating a copy of squares by slice method
+        // this is to avoid mutating data
 
         // this if-block ensures that an X or O is not overridden by pressing again on it
         if (squares[i] == null) {
@@ -34,6 +80,8 @@ class Game extends React.Component {
             this.setState({
                 history: history.concat([{ squares: squares, }]),
                 stepNumber: history.length,
+                //stepInfo: stepInfo.concat([[row,col]]),
+                stepInfo: stepInfo.concat([this.calculateCurrentStepinfo(i)]),
                 xIsNext: !this.state.xIsNext, // alternate 'X' and 'O'
             });
         }
@@ -66,11 +114,14 @@ class Game extends React.Component {
 
         const moves = history.map((step, move) => {
             const desc = move ?
-                'Go to move #' + move :
+                'Go to move #' + move + " [" + this.state.stepInfo[move][0] + " , " + this.state.stepInfo[move][1] + "]" :
                 'Go to game start';
             return (
                 <li key={move}>
-                    <button onClick={() => this.jumpTo(move)}>{desc}</button>
+                    <button
+                        onClick={() => this.jumpTo(move)}
+                        style={move === this.state.stepNumber ? { fontWeight: 'bold' } : { fontWeight: 'normal' }} // bolding the current move else normal text
+                    >{desc}</button>
                 </li>
             );
         });
