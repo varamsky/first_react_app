@@ -1,0 +1,92 @@
+.switch{
+    /*
+    position relative means it will be relative to its normal position.
+    You can use options like left: 10px; and top: 10px; and so on
+    */
+    position: relative;
+
+    /*
+    display: inline means it won't add a newline therefore, "inline"
+    display: inline-block means it allows to provide width and height property
+    */
+    display: inline-block;
+
+
+    width: 40px;
+    height: 24px;
+
+    /*this is for the space between the text and the toggle button*/
+    margin-left: 15px;
+
+    /* background-color: red; */
+}
+
+.switch input{
+    /*All of this is to make the default HTML checkbox invisible*/
+
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+.slider{
+    /*
+    position relative means the element is positioned relative to its first positioned ancestor element
+    */
+    position: absolute;
+
+    /*the cursor will become a pointer when you hover on the element*/
+    cursor: pointer;
+
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+
+    background-color: #ccc;
+
+    /*for smooth animation of the change of the background-color*/
+    transition: 0.4s;
+}
+
+.slider::before{
+    /*this is the actual slider that slides inside the "slider" element*/
+
+    /*
+    position relative means the element is positioned relative to its first positioned ancestor element
+    */
+    position: absolute;
+
+    content: "";
+    
+    height: 16px;
+    width: 16px;
+    left: 4px;
+    bottom: 4px;
+
+    background-color: white;
+
+    /*for animation of the slider*/
+    transition: 0.4s;
+}
+
+input:checked + .slider{
+    /*changing the color of the slider background to blue if the input is checked*/
+    background-color: #2196f3;
+}
+
+input:checked + .slider::before{
+    /*to translate or move the inner slider left or right*/
+    transform: translateX(16px);
+}
+
+.slider.rounded{
+    /*this is to make the slider container rounded*/
+    border-radius: 14px;
+}
+
+.slider.rounded::before{
+    /*this is to make the actual slider rounded*/
+    border-radius: 50%;
+}
+

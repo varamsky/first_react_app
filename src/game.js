@@ -1,5 +1,6 @@
 import React from 'react';
 import Board from './board.js';
+import ToggleButton from './components/toggleButton.js';
 
 class Game extends React.Component {
 
@@ -13,6 +14,7 @@ class Game extends React.Component {
             stepInfo: [[]],
             stepNumber: 0,
             xIsNext: true,
+            isToggled: false,
         };
     }
 
@@ -98,6 +100,12 @@ class Game extends React.Component {
         });
     }
 
+    handleToggle(){
+        this.setState({
+            isToggled: !this.state.isToggled,
+        });
+    }
+
 
     render() {
         const history = this.state.history;
@@ -113,6 +121,9 @@ class Game extends React.Component {
         // step will have the current item from the history array and move will have the current index from the history array
 
         const moves = history.map((step, move) => {
+
+            move = (this.state.isToggled)?history.length - move - 1:move;
+
             const desc = move ?
                 'Go to move #' + move + " [" + this.state.stepInfo[move][0] + " , " + this.state.stepInfo[move][1] + "]" :
                 'Go to game start';
@@ -145,6 +156,9 @@ class Game extends React.Component {
                     </div>
                     <div className="game-info">
                         <div>{status}</div>
+
+                        <ToggleButton rounded={true} isToggled={this.state.isToggled} onToggle={() => this.handleToggle()}/>
+
                         <ol>{moves}</ol>
                     </div>
                 </div>
