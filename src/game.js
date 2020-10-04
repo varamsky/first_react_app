@@ -67,7 +67,7 @@ class Game extends React.Component {
         const squares = current.squares.slice();
 
         // if already one player is winner then do nothing just return
-        if (calculateWinner(squares) || squares[i]) {
+        if (calculateWinner(squares)['squares'] || squares[i]) {
             return;
         }
 
@@ -100,7 +100,7 @@ class Game extends React.Component {
         });
     }
 
-    handleToggle(){
+    handleToggle() {
         this.setState({
             isToggled: !this.state.isToggled,
         });
@@ -110,7 +110,9 @@ class Game extends React.Component {
     render() {
         const history = this.state.history;
         const current = history[this.state.stepNumber];
-        const winner = calculateWinner(current.squares);
+        const winnerResult = calculateWinner(current.squares);
+        const winner = winnerResult['squares'];
+        const winSquares = winnerResult['winSquares'];
 
         // the list.map() accepts a function and the this value
         // like this, array.map(function(currentValue, index, arr), thisValue)
@@ -122,7 +124,7 @@ class Game extends React.Component {
 
         const moves = history.map((step, move) => {
 
-            move = (this.state.isToggled)?history.length - move - 1:move;
+            move = (this.state.isToggled) ? history.length - move - 1 : move;
 
             const desc = move ?
                 'Go to move #' + move + " [" + this.state.stepInfo[move][0] + " , " + this.state.stepInfo[move][1] + "]" :
@@ -152,12 +154,13 @@ class Game extends React.Component {
                         <Board
                             squares={current.squares}
                             handleClick={(i) => this.handleClick(i)}
+                            winSquares={winSquares}
                         />
                     </div>
                     <div className="game-info">
                         <div>{status}</div>
 
-                        <ToggleButton rounded={true} isToggled={this.state.isToggled} onToggle={() => this.handleToggle()}/>
+                        <ToggleButton rounded={true} isToggled={this.state.isToggled} onToggle={() => this.handleToggle()} />
 
                         <ol>{moves}</ol>
                     </div>
@@ -182,10 +185,10 @@ function calculateWinner(squares) {
         const [a, b, c] = lines[i];
         //console.log("squares[" + a + "] = " + squares[a] + "squares[" + b + "] = " + squares[b] + "squares[" + c +"] = " + squares[c]);
         if (squares[a] && squares[a] === squares[b] && squares[a] === squares[c]) {
-            return squares[a];
+            return { squares: squares[a], winSquares: [a, b, c] };
         }
     }
-    return null;
+    return { squares: null, winSquares: null };
 }
 
 

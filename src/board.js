@@ -5,6 +5,7 @@ class Board extends React.Component {
 	render() {
 
 		let boardSquares = [];
+		const winSquares = this.props.winSquares;
 		for (let row = 0; row < 3; row++) {
 			let boardRow = [];
 			for (let col = 0; col < 3; col++) {
@@ -14,6 +15,7 @@ class Board extends React.Component {
 							<Square
 								value={this.props.squares[(row * 3) + col]}
 								onclick={() => this.props.handleClick((row * 3) + col)}
+								className={winSquares != null && (winSquares.includes((row * 3) + col)) ? "square win" : "square"}
 							/>
 						}
 					</span>

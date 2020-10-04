@@ -10,7 +10,7 @@ class ToggleButton extends React.Component {
             <React.StrictMode>
                 <p>Sort in Descending Order
                 <label className="switch">
-                        <input type="checkbox" checked={this.props.isToggled} onClick={this.props.onToggle}/>
+                        <input type="checkbox" checked={this.props.isToggled} onClick={this.props.onToggle} />
                         <span className={sliderClassname} />
                     </label>
                 </p>

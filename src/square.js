@@ -5,7 +5,7 @@ function Square(props) {
 	// it only returns what is to be displayed on the screen in the return method
 	return (
 		<React.StrictMode>
-			<button className="square" onClick={
+			<button className={props.className} onClick={
 				() => props.onclick() // by this calling the onClick method of Game class(parent class)
 			}>
 				{props.value}
